@@ -1,0 +1,7 @@
+== Zip files ==
+
+test1.zip: deux fichiers et commentaire global.
+
+== Pdf files ==
+
+test1.pdf: fichier des impots.

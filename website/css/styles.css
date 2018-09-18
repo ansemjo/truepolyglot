@@ -1,0 +1,63 @@
+html {
+	background-color: black;
+	font-family: Consolas,monaco,monospace;
+ 	color: #92D050;
+}
+body {
+	background-color: black;
+	font-family: Consolas,monaco,monospace;
+ 	color: #92D050;
+}
+td {
+	background-color: black;
+	font-family: Consolas,monaco,monospace;
+ 	color: #92D050;
+}
+th {
+	background-color: black;
+	font-family: Consolas,monaco,monospace;
+ 	color: #92D050;
+}
+h1 {
+	color: white;
+}
+a:link {
+	color: #47B8C7;
+}
+a:visited {
+	color: #47B8C7;
+}
+a:active {
+	color: #47B8C7;
+}
+table {
+    border-collapse: collapse;
+}
+table, th, td {
+   border: 1px solid white;
+}
+th {
+   background-color: #92D050;
+   color: black;
+}
+th {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+} 
+td {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    text-align: left;
+}
+
+.font_reduce {
+    font-size: 75%;
+}
+
+.warning {
+    color: #ffb833;
+}

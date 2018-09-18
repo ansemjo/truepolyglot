@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import argparse
+import logging
+
+from PdfFileTransformer import Pdf
+from ZipFileTransformer import Zip
+from PolyglotFile import PolyglotZipPdf, PolyglotPdfZip, PolyglotSZipPdf
+
+
+def main():
+    description_str = ('Generate a polyglot file.\n\nFormats availables:\n' +
+                       '* pdfzip: Generate a file valid as PDF and ZIP.' +
+                       ' The format is closest to PDF.\n' +
+                       '* zippdf: Generate a file valid as ZIP and PDF.' +
+                       ' The format is closest to ZIP.\n' +
+                       '* szippdf: Generate a file valid as ZIP and PDF.' +
+                       ' The format is strictly a ZIP.' +
+                       ' Archive is modified.')
+    usage_str = '%(prog)s format [options] output-file'
+    epilog_str = 'TruePolyglot v1.3'
+    frm = argparse.RawTextHelpFormatter
+    parser = argparse.ArgumentParser(description=description_str,
+                                     epilog=epilog_str,
+                                     usage=usage_str,
+                                     formatter_class=frm)
+    parser.add_argument('format', nargs='+', choices=["pdfzip",
+                                                      "zippdf",
+                                                      "szippdf"],
+                        help='Output polyglot format')
+    parser.add_argument('--pdffile', dest='pdffile',
+                        help='PDF input file')
+    parser.add_argument('--zipfile', dest='zipfile',
+                        help='ZIP input file')
+    parser.add_argument('--verbose', dest='verbose',
+                        help='Verbosity level  (default: debug)',
+                        default="info",
+                        choices=["none", "error", "info", "debug"])
+    parser.add_argument('output_file', nargs='+',
+                        help='Output polyglot file path')
+
+    args = parser.parse_args()
+
+    formats = ["pdfzip", "zippdf", "szippdf"]
+    if args.format[0] in formats:
+        if args.pdffile is None:
+            parser.error('pdffile is required')
+        if args.zipfile is None:
+            parser.error('zipfile is required')
+
+    if args.verbose == "none":
+        logging.basicConfig(level=logging.CRITICAL)
+    if args.verbose == "error":
+        logging.basicConfig(level=logging.ERROR)
+    if args.verbose == "info":
+        logging.basicConfig(level=logging.INFO)
+    if args.verbose == "debug":
+        logging.basicConfig(level=logging.DEBUG)
+
+    p = Pdf(args.pdffile)
+    z = Zip(args.zipfile)
+    if args.format[0] == "pdfzip":
+        a = PolyglotPdfZip(p, z)
+    if args.format[0] == "zippdf":
+        a = PolyglotZipPdf(p, z)
+    if args.format[0] == "szippdf":
+        a = PolyglotSZipPdf(p, z)
+    a.generate()
+    a.write(args.output_file[0])
+
+
+if __name__ == "__main__":
+    main()
