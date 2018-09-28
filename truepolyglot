@@ -19,7 +19,7 @@ def main():
                        ' The format is strictly a ZIP.' +
                        ' Archive is modified.')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.3'
+    epilog_str = 'TruePolyglot v1.4.1'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
@@ -33,8 +33,12 @@ def main():
                         help='PDF input file')
     parser.add_argument('--zipfile', dest='zipfile',
                         help='ZIP input file')
+    parser.add_argument('--acrobat-compatibility',
+                        dest='acrobat_compatibility',
+                        help='Add a byte at start for Acrobat Reader compatibility with szippdf format',
+                        action='store_true')
     parser.add_argument('--verbose', dest='verbose',
-                        help='Verbosity level  (default: debug)',
+                        help='Verbosity level  (default: info)',
                         default="info",
                         choices=["none", "error", "info", "debug"])
     parser.add_argument('output_file', nargs='+',
@@ -43,6 +47,8 @@ def main():
     args = parser.parse_args()
 
     formats = ["pdfzip", "zippdf", "szippdf"]
+    if args.acrobat_compatibility and args.format[0] != "szippdf":
+        parser.error('--acrobat-compatibility is for szippdf only')
     if args.format[0] in formats:
         if args.pdffile is None:
             parser.error('pdffile is required')
@@ -65,7 +71,7 @@ def main():
     if args.format[0] == "zippdf":
         a = PolyglotZipPdf(p, z)
     if args.format[0] == "szippdf":
-        a = PolyglotSZipPdf(p, z)
+        a = PolyglotSZipPdf(p, z, args.acrobat_compatibility)
     a.generate()
     a.write(args.output_file[0])
 

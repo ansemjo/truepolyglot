@@ -28,8 +28,9 @@ from PdfFileTransformer import Pdf
 
 class PolyglotSZipPdf(PolyglotPdfZip):
 
-    def __init__(self, Pdf, Zip):
+    def __init__(self, Pdf, Zip, acrobat_compatibility):
         super().__init__(Pdf, Zip)
+        self.acrobat_compatibility = acrobat_compatibility
 
     def get_rebuild_zip_first_part_size(self):
 
@@ -82,7 +83,11 @@ class PolyglotSZipPdf(PolyglotPdfZip):
         new_pdf.file_offset = offset
         pdf_buffer = new_pdf.get_build_buffer()
         j2 = pdf_buffer[k2_stream_offset + size_k2_stream:]
-        new_zip.add_data_to_file(b'', j2, True)
+
+        if self.acrobat_compatibility:
+            new_zip.add_data_to_file(b'\x00', j2, True)
+        else:
+            new_zip.add_data_to_file(b'', j2, True)
 
         return new_zip.buffer
 
