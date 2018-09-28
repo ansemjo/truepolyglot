@@ -23,6 +23,10 @@ EXAMPLES
 # see https://github.com/mstamy2/PyPDF2/LICENSE
 
 from __future__ import print_function
+
+import sys
+sys.path.append("../")
+
 import argparse
 from PdfFileTransformer.PyPDF2.pagerange import PAGE_RANGE_HELP
 
