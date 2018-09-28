@@ -20,11 +20,11 @@ def main():
                        ' The format is closest to ZIP.\n' +
                        '* szippdf: Generate a file valid as ZIP and PDF.' +
                        ' The format is strictly a ZIP.' +
-                       ' Archive is modified.'
+                       ' Archive is modified.\n' +
                        '* pdfraw: Generate a file strictly valid as a PDF ' +
-                       ' with a custom first object content.')
+                       'with a custom first object content.')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.5'
+    epilog_str = 'TruePolyglot v1.5.1'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
