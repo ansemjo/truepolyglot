@@ -9,7 +9,7 @@ from ZipFileTransformer import Zip
 from PolyglotFile import PolyglotZipPdf
 from PolyglotFile import PolyglotPdfZip
 from PolyglotFile import PolyglotSZipPdf
-from PolyglotFile import PolyglotPdfRaw
+from PolyglotFile import PolyglotPdfAny
 
 
 def main():
@@ -21,10 +21,11 @@ def main():
                        '* szippdf: Generate a file valid as ZIP and PDF.' +
                        ' The format is strictly a ZIP.' +
                        ' Archive is modified.\n' +
-                       '* pdfraw: Generate a file strictly valid as a PDF ' +
-                       'with a custom first object content.')
+                       '* pdfany: Generate a valid PDF file with payload1' +
+                       ' file content as first object or/and payload2 file' +
+                       ' content as last oject.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.5.1'
+    epilog_str = 'TruePolyglot v1.5.2'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
@@ -33,14 +34,16 @@ def main():
     parser.add_argument('format', nargs='+', choices=["pdfzip",
                                                       "zippdf",
                                                       "szippdf",
-                                                      "pdfraw"],
+                                                      "pdfany"],
                         help='Output polyglot format')
     parser.add_argument('--pdffile', dest='pdffile',
                         help='PDF input file')
     parser.add_argument('--zipfile', dest='zipfile',
                         help='ZIP input file')
-    parser.add_argument('--rawfile', dest='rawfile',
-                        help='RAW input file')
+    parser.add_argument('--payload1file', dest='payload1file',
+                        help='Payload 1 input file')
+    parser.add_argument('--payload2file', dest='payload2file',
+                        help='Payload 2 input file')
     parser.add_argument('--acrobat-compatibility',
                         dest='acrobat_compatibility',
                         help='Add a byte at start for Acrobat Reader compatibility with szippdf format',
@@ -57,11 +60,12 @@ def main():
     if args.acrobat_compatibility and args.format[0] != "szippdf":
         parser.error('--acrobat-compatibility is for szippdf only')
     if "pdf" in args.format[0] and args.pdffile is None:
-            parser.error('pdffile is required')
+        parser.error('pdffile is required')
     if "zip" in args.format[0] and args.zipfile is None:
-            parser.error('zipfile is required')
-    if "raw" in args.format[0] and args.rawfile is None:
-            parser.error('rawfile is required')
+        parser.error('zipfile is required')
+    if ("any" in args.format[0] and args.payload1file is None and
+            args.payload2file is None):
+        parser.error('payload1file or payload2file is required')
 
     if args.verbose == "none":
         logging.basicConfig(level=logging.CRITICAL)
@@ -84,9 +88,9 @@ def main():
         p = Pdf(args.pdffile)
         z = Zip(args.zipfile)
         a = PolyglotSZipPdf(p, z, args.acrobat_compatibility)
-    if args.format[0] == "pdfraw":
+    if args.format[0] == "pdfany":
         p = Pdf(args.pdffile)
-        a = PolyglotPdfRaw(p, args.rawfile)
+        a = PolyglotPdfAny(p, args.payload1file, args.payload2file)
 
     a.generate()
     a.write(args.output_file[0])
