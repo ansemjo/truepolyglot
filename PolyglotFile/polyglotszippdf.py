@@ -81,6 +81,8 @@ class PolyglotSZipPdf(PolyglotPdfZip):
         k2_stream_offset = new_pdf.get_first_stream_offset()
 
         new_pdf.file_offset = offset
+        if self.acrobat_compatibility:
+            new_pdf.file_offset = new_pdf.file_offset + 1
         pdf_buffer = new_pdf.get_build_buffer()
         j2 = pdf_buffer[k2_stream_offset + size_k2_stream:]
 

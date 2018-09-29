@@ -25,7 +25,7 @@ def main():
                        ' file content as first object or/and payload2 file' +
                        ' content as last oject.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.5.2'
+    epilog_str = 'TruePolyglot v1.5.3'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
