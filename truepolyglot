@@ -29,10 +29,10 @@ def main():
                        ' content as last oject.\n' +
                        '* zipany: Generate a valid ZIP file with payload1' +
                        ' file content at start of file\n' +
-                       '          or/and payload2 file content beetween' +
+                       '          or/and payload2 file content between' +
                        ' LFH and CD.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.6'
+    epilog_str = 'TruePolyglot v1.6.1'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
