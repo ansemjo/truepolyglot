@@ -10,6 +10,8 @@ from PolyglotFile import PolyglotZipPdf
 from PolyglotFile import PolyglotPdfZip
 from PolyglotFile import PolyglotSZipPdf
 from PolyglotFile import PolyglotPdfAny
+from PolyglotFile import PolyglotZipAny
+
 
 
 def main():
@@ -19,13 +21,18 @@ def main():
                        '* zippdf: Generate a file valid as ZIP and PDF.' +
                        ' The format is closest to ZIP.\n' +
                        '* szippdf: Generate a file valid as ZIP and PDF.' +
-                       ' The format is strictly a ZIP.' +
-                       ' Archive is modified.\n' +
+                       ' The format is strictly a ZIP.\n' +
+                       '           Archive is modified.\n' +
                        '* pdfany: Generate a valid PDF file with payload1' +
-                       ' file content as first object or/and payload2 file' +
-                       ' content as last oject.\n')
+                       ' file content as first object\n' +
+                       '          or/and payload2 file' +
+                       ' content as last oject.\n' +
+                       '* zipany: Generate a valid ZIP file with payload1' +
+                       ' file content at start of file\n' +
+                       '          or/and payload2 file content beetween' +
+                       ' LFH and CD.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.5.3'
+    epilog_str = 'TruePolyglot v1.6'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
@@ -34,7 +41,8 @@ def main():
     parser.add_argument('format', nargs='+', choices=["pdfzip",
                                                       "zippdf",
                                                       "szippdf",
-                                                      "pdfany"],
+                                                      "pdfany",
+                                                      "zipany"],
                         help='Output polyglot format')
     parser.add_argument('--pdffile', dest='pdffile',
                         help='PDF input file')
@@ -91,6 +99,10 @@ def main():
     if args.format[0] == "pdfany":
         p = Pdf(args.pdffile)
         a = PolyglotPdfAny(p, args.payload1file, args.payload2file)
+    if args.format[0] == "zipany":
+        z = Zip(args.zipfile)
+        a = PolyglotZipAny(z, args.payload1file, args.payload2file)
+
 
     a.generate()
     a.write(args.output_file[0])

@@ -4,27 +4,25 @@ import logging
 
 '''
     |-------------------------------|    -
-    |--------- PDF Header ----------K1   | J1
+    |---------- Payload 1 ----------K1   | J1
     |-------------------------------|    -
-    |---- PDF OBJ 1 = Payload 1 ----K2   |
+    |---- ZIP Local File Header ----K2   |
     |-------------------------------|    -
-    |---- Original PDF Ojbects -----K3   | J2
+    |---------- Payload 2-----------K3   | J2
     |-------------------------------|    -
-    |-- PDF Last OBJ = Payload 2 ---K4   |
+    |---- ZIP Central Directory ----K4   |
     |-------------------------------|    |
-    |---------- Xref Table ---------|    |
-    |-------------------------------K5   |
-    |----------- Trailer -----------|    |
+    |--- End of Central Directory --K5   |
     |-------------------------------|    |
 '''
 
 
-class PolyglotPdfAny():
-    from PdfFileTransformer import Pdf
+class PolyglotZipAny():
+    from ZipFileTransformer import Zip
 
-    def __init__(self, Pdf, payload1filename, payload2filename):
+    def __init__(self, Zip, payload1filename, payload2filename):
         self.buffer = bytearray()
-        self.pdf = Pdf
+        self.zip = Zip
         self.payload1 = bytearray()
         if payload1filename is not None:
             with open(payload1filename, "rb") as f:
@@ -35,13 +33,8 @@ class PolyglotPdfAny():
                 self.payload2 = f.read()
 
     def generate(self):
-        k2stream = self.payload1
-        if len(k2stream) > 0:
-            self.pdf.insert_new_obj_stream_at_start(k2stream)
-        k4stream = self.payload2
-        if len(k4stream) > 0:
-            self.pdf.insert_new_obj_stream_at_end(k4stream)
-        self.buffer = self.pdf.get_build_buffer()
+        self.zip.add_data_to_file(self.payload1, self.payload2, True)
+        self.buffer = self.zip.buffer
 
     def write(self, filename):
         fd = open(filename, "wb")
