@@ -47,8 +47,8 @@ import logging
 
 
 class PolyglotPdfZip():
-    from PdfFileTransformer import Pdf
-    from ZipFileTransformer import Zip
+    from Truepolyglot.PdfFileTransformer import Pdf
+    from Truepolyglot.ZipFileTransformer import Zip
 
     def __init__(self, Pdf, Zip):
         self.buffer = bytearray()

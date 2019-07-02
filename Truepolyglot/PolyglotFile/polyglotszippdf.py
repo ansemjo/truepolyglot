@@ -30,9 +30,9 @@ For more information, please refer to <http://unlicense.org/>
 from .polyglotpdfzip import PolyglotPdfZip
 import logging
 import tempfile
-from ZipFileTransformer import ZipFile
-from ZipFileTransformer import Zip
-from PdfFileTransformer import Pdf
+from Truepolyglot.ZipFileTransformer import ZipFile
+from Truepolyglot.ZipFileTransformer import Zip
+from Truepolyglot.PdfFileTransformer import Pdf
 
 '''
     |-----------------------------------|  -

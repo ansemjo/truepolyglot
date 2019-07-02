@@ -45,7 +45,7 @@ import logging
 
 
 class PolyglotZipAny():
-    from ZipFileTransformer import Zip
+    from Truepolyglot.ZipFileTransformer import Zip
 
     def __init__(self, Zip, payload1filename, payload2filename):
         self.buffer = bytearray()

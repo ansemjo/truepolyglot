@@ -31,13 +31,13 @@ For more information, please refer to <http://unlicense.org/>
 import argparse
 import logging
 
-from PdfFileTransformer import Pdf
-from ZipFileTransformer import Zip
-from PolyglotFile import PolyglotZipPdf
-from PolyglotFile import PolyglotPdfZip
-from PolyglotFile import PolyglotSZipPdf
-from PolyglotFile import PolyglotPdfAny
-from PolyglotFile import PolyglotZipAny
+from Truepolyglot.PdfFileTransformer import Pdf
+from Truepolyglot.ZipFileTransformer import Zip
+from Truepolyglot.PolyglotFile import PolyglotZipPdf
+from Truepolyglot.PolyglotFile import PolyglotPdfZip
+from Truepolyglot.PolyglotFile import PolyglotSZipPdf
+from Truepolyglot.PolyglotFile import PolyglotPdfAny
+from Truepolyglot.PolyglotFile import PolyglotZipAny
 
 
 

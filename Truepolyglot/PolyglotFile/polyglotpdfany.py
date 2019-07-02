@@ -47,7 +47,7 @@ import logging
 
 
 class PolyglotPdfAny():
-    from PdfFileTransformer import Pdf
+    from Truepolyglot.PdfFileTransformer import Pdf
 
     def __init__(self, Pdf, payload1filename, payload2filename):
         self.buffer = bytearray()
