@@ -1,6 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
+"""
+
 import argparse
 import logging
 
@@ -24,11 +51,11 @@ def main():
                        ' The format is strictly a ZIP.\n' +
                        '           Archive is modified.\n' +
                        '* pdfany: Generate a valid PDF file with payload1' +
-                       ' file content as first object\n' +
+                       ' file content as the first object\n' +
                        '          or/and payload2 file' +
-                       ' content as last oject.\n' +
+                       ' content as the last oject.\n' +
                        '* zipany: Generate a valid ZIP file with payload1' +
-                       ' file content at start of file\n' +
+                       ' file content at the start of the file\n' +
                        '          or/and payload2 file content between' +
                        ' LFH and CD.\n')
     usage_str = '%(prog)s format [options] output-file'
@@ -54,7 +81,7 @@ def main():
                         help='Payload 2 input file')
     parser.add_argument('--acrobat-compatibility',
                         dest='acrobat_compatibility',
-                        help='Add a byte at start for Acrobat Reader compatibility with szippdf format',
+                        help='Add a byte at the start for Acrobat Reader compatibility with the szippdf format',
                         action='store_true')
     parser.add_argument('--verbose', dest='verbose',
                         help='Verbosity level  (default: info)',

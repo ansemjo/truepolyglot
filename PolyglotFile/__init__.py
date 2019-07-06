@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 
 from .polyglotpdfzip import PolyglotPdfZip
 from .polyglotpdfany import PolyglotPdfAny
