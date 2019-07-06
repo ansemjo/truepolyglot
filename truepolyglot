@@ -59,7 +59,7 @@ def main():
                        '          or/and payload2 file content between' +
                        ' LFH and CD.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.6.1'
+    epilog_str = 'TruePolyglot v1.6.2'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,

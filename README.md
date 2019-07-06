@@ -80,7 +80,7 @@ optional arguments:
 --acrobat-compatibility Add a byte at the start for Acrobat Reader compatibility with the szippdf format       
 --verbose {none,error,info,debug} Verbosity level  (default: info)
 
-TruePolyglot v1.6.1
+TruePolyglot v1.6.2
 ```
 
 ## Code ##
@@ -89,7 +89,7 @@ TruePolyglot v1.6.1
 git clone https://git.hackade.org/truepolyglot.git/
 ```
 
-or download [truepolyglot-1.6.1.tar.gz](https://git.hackade.org/truepolyglot.git/snapshot/truepolyglot-1.6.1.tar.gz)
+or download [truepolyglot-1.6.2.tar.gz](https://git.hackade.org/truepolyglot.git/snapshot/truepolyglot-1.6.2.tar.gz)
 
 ## How to detect a polyglot file ? ##
 
