@@ -1,7 +1,18 @@
+# truepolyglot
+
 Truepolyglot is polyglot file generator project. It means  the generated file is composed of several file formats. The same file can be opened as a ZIP file and as a PDF file for example. The idea of this project comes from the work of [Ange Albertini](https://github.com/corkami), [International Journal of Proof-of-Concept or Get The Fuck Out](https://www.alchemistowl.org/pocorgtfo/pocorgtfo07.pdf) and [Julia Wolf](https://www.troopers.de/wp-content/uploads/2011/04/TR11_Wolf_OMG_PDF.pdf) that explain how we can build a polyglot file.\
 Polyglot file can be boring to build, even more if you want to respect the file format correctly.\
 That's why I decided to build a tool to generate them.\
 My main motivation was the technical challenge.
+
+## FORKED
+
+This repository is forked from https://truepolyglot.hackade.org/ and includes a few commits to
+provide a `setup.py` for `pip`-installations. 
+
+You can install this version with:
+
+    pip install git+https://github.com/ansemjo/truepolyglot
 
 ## Features and versions ##
 
