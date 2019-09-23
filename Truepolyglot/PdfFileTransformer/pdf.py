@@ -31,6 +31,7 @@ import logging as Logging
 import re
 import tempfile
 from PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2.utils import PdfReadError
 
 logging = Logging.getLogger("pdf")
 
@@ -57,9 +58,7 @@ class Pdf:
         f_input = open(self.filename, "rb")
         pdf_header = f_input.read(8)
         f_input.seek(0)
-        filename_output = tempfile.mktemp()
-        logging.debug("Use " + filename_output + " for normalisation output")
-        f_ouput = open(filename_output, "wb")
+        f_output = tempfile.TemporaryFile()
         writer = PdfFileWriter()
         reader = PdfFileReader(f_input)
         info = reader.getDocumentInfo()
@@ -69,14 +68,17 @@ class Pdf:
             writer.addMetadata({u'/Producer': u'TruePolyglot'})
         elif info.creator is None:
             writer.addMetadata({u'/Creator': u'TruePolyglot'})
-        writer.cloneReaderDocumentRoot(reader)
-        writer.write(f_ouput)
+        try:
+            writer.cloneReaderDocumentRoot(reader)
+            writer.write(f_output)
+        except PdfReadError as e:
+            logging.error("The PDF appears to be malformed. Try running it through qpdf.")
+            raise e
         f_input.close()
-        f_ouput.close()
-        f_norm = open(filename_output, "rb")
-        self.buffer = bytearray(f_norm.read())
+        f_output.seek(0)
+        self.buffer = bytearray(f_output.read())
         self.size = len(self.buffer)
-        f_norm.close()
+        f_output.close()
 
     def check_pdf_header(self):
         if self.buffer[0:5] == b"%PDF-":
