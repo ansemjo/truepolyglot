@@ -21,4 +21,5 @@ setup(
     scripts=[name],
     packages=find_packages(),
     python_requires='>3',
+    install_requires=["pypdf2 >= 1.26.0"],
 )

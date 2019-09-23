@@ -30,7 +30,7 @@ For more information, please refer to <http://unlicense.org/>
 import logging as Logging
 import re
 import tempfile
-from .PyPDF2 import PdfFileWriter, PdfFileReader
+from PyPDF2 import PdfFileWriter, PdfFileReader
 
 logging = Logging.getLogger("pdf")
 
@@ -70,7 +70,6 @@ class Pdf:
         elif info.creator is None:
             writer.addMetadata({u'/Creator': u'TruePolyglot'})
         writer.cloneReaderDocumentRoot(reader)
-        writer.setHeader(pdf_header)
         writer.write(f_ouput)
         f_input.close()
         f_ouput.close()
