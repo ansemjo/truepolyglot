@@ -27,9 +27,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 """
 
-import logging
+import logging as Logging
 import re
 
+logging = Logging.getLogger("zip")
 
 class Zip:
 
@@ -149,27 +150,27 @@ class Zip:
                            size + offset + 4] ==
                 b'PK\x01\x02'):
 
-            logging.info("Parse central directory n°" + str(i))
-            logging.info("Offset: " + hex(offset + size))
+            logging.debug("Parse central directory n°" + str(i))
+            logging.debug("Offset: " + hex(offset + size))
             self.offset_central_directory.append(offset + size)
             filename_length = int.from_bytes(
                 self.buffer[size + offset + 28:size + offset + 30],
                 "little")
-            logging.info("filename length:" + str(filename_length))
+            logging.debug("filename length:" + str(filename_length))
             extra_field_length = int.from_bytes(
                 self.buffer[size + offset + 30:size + offset + 32],
                 "little")
-            logging.info("extra field length:" + str(extra_field_length))
+            logging.debug("extra field length:" + str(extra_field_length))
             comment_length = int.from_bytes(
                 self.buffer[size + offset + 32:size + offset + 34],
                 "little")
-            logging.info("comment length:" + str(comment_length))
+            logging.debug("comment length:" + str(comment_length))
             local_file_header = int.from_bytes(
                 self.buffer[size + offset + 42:size + offset + 46],
                 "little")
             if i == 0:
                 self.first_local_file_header = local_file_header
-            logging.info("local file header:" + hex(local_file_header))
+            logging.debug("local file header:" + hex(local_file_header))
 
             i = i + 1
             size = (size + filename_length +
@@ -181,23 +182,23 @@ class Zip:
         size = 0
         offset = self.first_local_file_header
         for i in range(self.nb_of_central_dir):
-            logging.info("Parse local file n°" + str(i))
+            logging.debug("Parse local file n°" + str(i))
             compressed_data_lenght = int.from_bytes(
                 self.buffer[size + offset + 18:size + offset + 22],
                 "little")
-            logging.info("compressed data length:" +
+            logging.debug("compressed data length:" +
                          str(compressed_data_lenght))
             filename_length = int.from_bytes(
                 self.buffer[size + offset + 26:size + offset + 28],
                 "little")
-            logging.info("filename length:" + str(filename_length))
+            logging.debug("filename length:" + str(filename_length))
             extra_field_length = int.from_bytes(
                 self.buffer[size + offset + 28:size + offset + 30],
                 "little")
-            logging.info("extra field length:" + str(extra_field_length))
+            logging.debug("extra field length:" + str(extra_field_length))
             local_file_size = (compressed_data_lenght +
                                filename_length + extra_field_length + 30)
-            logging.info("local file length:" + hex(local_file_size))
+            logging.debug("local file length:" + hex(local_file_size))
             size = size + local_file_size
             logging.debug("parse header at:" + hex(offset + size))
             self.offset_local_file.append(offset + size)
@@ -211,15 +212,15 @@ class Zip:
                      str(len(data_before_local)))
         new_buffer = self.buffer
         for i in self.offset_central_directory:
-            logging.info("parse central directory at: " + hex(i))
+            logging.debug("parse central directory at: " + hex(i))
             local_file_header = int.from_bytes(
                 self.buffer[i + 42:i + 46],
                 "little")
-            logging.info("old local file header: " + hex(local_file_header))
+            logging.debug("old local file header: " + hex(local_file_header))
             local_file_header = local_file_header + len(data_before_local)
-            logging.info("new local file header: " + hex(local_file_header))
+            logging.debug("new local file header: " + hex(local_file_header))
             bytes_local_file_header = local_file_header.to_bytes(4, "little")
-            logging.info("change value at:" + hex(i + 42))
+            logging.debug("change value at:" + hex(i + 42))
             new_buffer[i + 42:i + 46] = bytes_local_file_header
 
         logging.info("old central directory header: " +

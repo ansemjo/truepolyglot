@@ -27,11 +27,12 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 """
 
-import logging
+import logging as Logging
 import re
 import tempfile
 from .PyPDF2 import PdfFileWriter, PdfFileReader
 
+logging = Logging.getLogger("pdf")
 
 class Pdf:
 
@@ -57,12 +58,12 @@ class Pdf:
         pdf_header = f_input.read(8)
         f_input.seek(0)
         filename_output = tempfile.mktemp()
-        logging.info("Use " + filename_output + " for normalisation output")
+        logging.debug("Use " + filename_output + " for normalisation output")
         f_ouput = open(filename_output, "wb")
         writer = PdfFileWriter()
         reader = PdfFileReader(f_input)
         info = reader.getDocumentInfo()
-        logging.info("Document info:", info)
+        logging.info("Document info:" + str(info))
         writer.addMetadata(info)
         if info.producer is None:
             writer.addMetadata({u'/Producer': u'TruePolyglot'})
@@ -192,7 +193,7 @@ class Pdf:
 
         for i in range(len(self.objects)):
             obj_start = self.get_object_offset(i)
-            logging.info("Obj %d at %d" % (self.objects[i][0], obj_start))
+            logging.debug("Obj %d at %d" % (self.objects[i][0], obj_start))
             buf = (buf +
                    (str(obj_start).zfill(10)).encode('utf-8') + b' ' +
                    str(0).zfill(5).encode('utf-8') + b' ' +
@@ -317,7 +318,7 @@ class Pdf:
         for i in range(len(self.objects)):
             self.translation_table[(self.objects[i][0],
                                     self.objects[i][1])] = i + 1
-        logging.info(self.translation_table)
+        logging.debug(self.translation_table)
 
     def replace_ref(self, ibuffer):
         '''
