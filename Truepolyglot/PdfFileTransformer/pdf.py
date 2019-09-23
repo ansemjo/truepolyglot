@@ -62,15 +62,13 @@ class Pdf:
         writer = PdfFileWriter()
         reader = PdfFileReader(f_input)
         info = reader.getDocumentInfo()
-        if info.producer is not None:
-            writer.addMetadata({u'/Producer': info.producer})
-        else:
+        logging.info("Document info:", info)
+        writer.addMetadata(info)
+        if info.producer is None:
             writer.addMetadata({u'/Producer': u'TruePolyglot'})
-        if info.creator is not None:
-            writer.addMetadata({u'/Creator': info.creator})
-        else:
+        elif info.creator is None:
             writer.addMetadata({u'/Creator': u'TruePolyglot'})
-        writer.appendPagesFromReader(reader)
+        writer.cloneReaderDocumentRoot(reader)
         writer.setHeader(pdf_header)
         writer.write(f_ouput)
         f_input.close()
