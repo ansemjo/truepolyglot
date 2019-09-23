@@ -5,14 +5,27 @@ Polyglot file can be boring to build, even more if you want to respect the file 
 That's why I decided to build a tool to generate them.\
 My main motivation was the technical challenge.
 
-## FORKED
+## :warning: FORKED
 
-This repository is forked from https://truepolyglot.hackade.org/ and includes a few commits to
-provide a `setup.py` for `pip`-installations. 
+This repository is forked from [truepolyglot.hackade.org][hackade] and includes a few commits to
+provide a `setup.py` for `pip`-installations along with a number of [other opinionated changes][history].
 
-You can install this version with:
+You can install this version from `master` with:
 
     pip install git+https://github.com/ansemjo/truepolyglot
+
+Notably, this fork uses PyPDF2's `cloneReaderDocumentRoot`, which may hiccup on malformed PDFs more easily but
+copies the entire document including cross-references and section labels. The `setup.py` also installs a command
+`pdfzip`, which only creates polyglot files of this particular format since I believe this to be the most useful
+output format:
+
+    pdfzip -p document.pdf -z archive.zip polyglot.zip.pdf
+
+[hackade]: https://truepolyglot.hackade.org/
+[history]: https://github.com/ansemjo/truepolyglot/compare/1.6.2...master
+
+Below you find the rest of the *original* README. Parts of it may be outdated and may not apply to this fork.
+For example I did not test compatability beyond Firefox and Evince.
 
 ## Features and versions ##
 
