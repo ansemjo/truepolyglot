@@ -30,6 +30,7 @@ For more information, please refer to <http://unlicense.org/>
 
 import argparse
 import logging
+from os import path
 
 from Truepolyglot.PdfFileTransformer import Pdf
 from Truepolyglot.ZipFileTransformer import Zip
@@ -40,6 +41,7 @@ from Truepolyglot.PolyglotFile import PolyglotPdfAny
 from Truepolyglot.PolyglotFile import PolyglotZipAny
 
 
+epilog_str = 'TruePolyglot v1.6.2'
 
 def main():
     description_str = ('Generate a polyglot file.\n\nFormats availables:\n' +
@@ -59,7 +61,6 @@ def main():
                        '          or/and payload2 file content between' +
                        ' LFH and CD.\n')
     usage_str = '%(prog)s format [options] output-file'
-    epilog_str = 'TruePolyglot v1.6.2'
     frm = argparse.RawTextHelpFormatter
     parser = argparse.ArgumentParser(description=description_str,
                                      epilog=epilog_str,
@@ -134,6 +135,47 @@ def main():
     a.generate()
     a.write(args.output_file[0])
 
+# reduced argparse to create pdfzip format files
+def pdfzip():
+
+    description = """
+    Generate a pdfzip format polyglot file. This file is valid as
+    a PDF and as a ZIP and is closest to the PDF format.
+    For other output formats use the 'truepolyglot' command.
+    """
+
+    parser = argparse.ArgumentParser(
+        description=description,
+        epilog=epilog_str,
+        usage="%(prog)s -p pdf -z zip output",
+    )
+
+    parser.add_argument("-p", "--pdffile", metavar="pdf", help="PDF input file", required=True)
+    parser.add_argument("-z", "--zipfile", metavar="zip", help="ZIP archive input file", required=True)
+    parser.add_argument("output", help="Polyglot output file")
+    parser.add_argument('--verbose', help='Verbosity level (default: info)',
+                        default="info", choices=["none", "error", "info", "debug"])
+
+    args = parser.parse_args()
+
+    if args.verbose == "none":
+        logging.basicConfig(level=logging.CRITICAL)
+    if args.verbose == "error":
+        logging.basicConfig(level=logging.ERROR)
+    if args.verbose == "info":
+        logging.basicConfig(level=logging.INFO)
+    if args.verbose == "debug":
+        logging.basicConfig(level=logging.DEBUG)
+
+    p = Pdf(args.pdffile)
+    z = Zip(args.zipfile)
+    a = PolyglotPdfZip(p, z)
+    a.generate()
+    a.write(args.output)
 
 if __name__ == "__main__":
-    main()
+    name = path.basename(__file__)
+    if name == "pdfzip":
+        pdfzip()
+    else:
+        main()

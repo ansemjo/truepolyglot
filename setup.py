@@ -18,7 +18,7 @@ setup(
     author=author,
     author_email=email,
     url=git,
-    scripts=[name],
+    scripts=[name, "pdfzip"],
     packages=find_packages(),
     python_requires='>3',
     install_requires=["pypdf2 >= 1.26.0"],
