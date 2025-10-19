@@ -21,5 +21,5 @@ setup(
     scripts=[name, "pdfzip"],
     packages=find_packages(),
     python_requires='>3',
-    install_requires=["pypdf2 = 1.28.6"],
+    install_requires=["pypdf2 == 1.28.6"],
 )
